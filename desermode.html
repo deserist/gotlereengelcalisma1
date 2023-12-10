@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Engelleme</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #ipInput {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>IP Engelleme</h1>
+    <p>Engellenmesini istediğiniz IP adresini girin:</p>
+
+    <input type="text" id="ipInput" placeholder="IP Adresi">
+    <button onclick="blockIP()">Engelle</button>
+
+    <script>
+        function blockIP() {
+            // Kullanıcının girdiği IP adresini al
+            var blockedIP = document.getElementById('ipInput').value;
+
+            // Bu kısımda engelleme işlemini gerçekleştirebilirsiniz
+            // Burada sadece bir örnek olarak console.log kullanıldı
+            console.log(`IP ${blockedIP} engellendi!`);
+
+            // IP engellendikten sonra başka bir sayfaya yönlendir
+            window.location.href = "engellendi.html";
+        }
+    </script>
+</body>
+</html>
