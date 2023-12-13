@@ -60,6 +60,12 @@
                 return;
             }
 
+            // Boş metin kontrolü
+            if (message.trim() === '') {
+                alert('Yarramı Yedinmi Sen hiç ?.');
+                return;
+            }
+
             // Kullanıcının IP adresini al
             var ipAddress = '';
 
